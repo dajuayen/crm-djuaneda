@@ -3,7 +3,6 @@
 
 from odoo import api, fields, models
 
-# from wdb import set_trace as depurador
 
 class Meeting(models.Model):
     _inherit = 'calendar.event'
@@ -56,24 +55,14 @@ class Meeting(models.Model):
         index = {vals['id']: vals for vals in result}
         return [index[record.id] for record in records if record.id in index]
 
-    # @api.model
-    # def create(self, vals):
-    #     event = super(Meeting, self).create(vals)
-    #
-    #     if event.opportunity_id and not event.activity_ids:
-    #         event.opportunity_id.log_meeting(event.name, event.start, event.duration)
-    #     return event
-
     @api.model
     def create(self, values):
-        # al pulsar guardar en una reunión
-        print('**************************** OVERRIDE CREATE CALENDAR EVENT ***********************')
-        print ("values: \n{}".format(str(values)))
+
         if not 'user_id' in values:  # Else bug with quick_create when we are filter on an other user
             values['user_id'] = self.env.user.id
         if 'res_id' in values and values['res_id'] == 0:
             del values['res_id']
-        # depurador()
+
         # compute duration, if not given
         if not 'duration' in values:
             values['duration'] = self._get_duration(values['start'], values['stop'])
@@ -153,55 +142,3 @@ class Meeting(models.Model):
                 activity_values['user_id'] = values['user_id']
             if activity_values.keys():
                 self.mapped('activity_ids').write(activity_values)
-
-    # @api.multi
-    # def create_attendees(self):
-    #     current_user = self.env.user
-    #     result = {}
-    #     for meeting in self:
-    #         alreay_meeting_partners = meeting.attendee_ids.mapped('partner_id')
-    #         meeting_attendees = self.env['calendar.attendee']
-    #         meeting_partners = self.env['res.partner']
-    #         for partner in meeting.partner_ids.filtered(lambda partner: partner not in alreay_meeting_partners):
-    #             values = {
-    #                 'partner_id': partner.id,
-    #                 'email': partner.email,
-    #                 'event_id': meeting.id,
-    #             }
-    #
-    #             # current user don't have to accept his own meeting
-    #             if partner == self.env.user.partner_id:
-    #                 values['state'] = 'accepted'
-    #
-    #             attendee = self.env['calendar.attendee'].create(values)
-    #
-    #             meeting_attendees |= attendee
-    #             meeting_partners |= partner
-    #
-    #         if meeting_attendees:
-    #             to_notify = meeting_attendees.filtered(lambda a: a.email != current_user.email)
-    #             to_notify._send_mail_to_attendees('calendar.calendar_template_meeting_invitation')
-    #
-    #             meeting.write({'attendee_ids': [(4, meeting_attendee.id) for meeting_attendee in meeting_attendees]})
-    #         if meeting_partners:
-    #             meeting.message_subscribe(partner_ids=meeting_partners.ids)
-    #
-    #         # We remove old attendees who are not in partner_ids now.
-    #         all_partners = meeting.partner_ids
-    #         all_partner_attendees = meeting.attendee_ids.mapped('partner_id')
-    #         old_attendees = meeting.attendee_ids
-    #         partners_to_remove = all_partner_attendees + meeting_partners - all_partners
-    #
-    #         attendees_to_remove = self.env["calendar.attendee"]
-    #         if partners_to_remove:
-    #             attendees_to_remove = self.env["calendar.attendee"].search(
-    #                 [('partner_id', 'in', partners_to_remove.ids), ('event_id', '=', meeting.id)])
-    #             attendees_to_remove.unlink()
-    #
-    #         result[meeting.id] = {
-    #             'new_attendees': meeting_attendees,
-    #             'old_attendees': old_attendees,
-    #             'removed_attendees': attendees_to_remove,
-    #             'removed_partners': partners_to_remove
-    #         }
-    #     return result

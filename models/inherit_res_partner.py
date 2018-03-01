@@ -3,7 +3,6 @@
 from odoo import api, fields, models
 
 class Partner(models.Model):
-    _description = 'Partner CRM SDI' #(opcional, descripción corta)
     _inherit = 'res.partner'
 
     opportunity_count_lost = fields.Integer("Opportunity lost", compute='_compute_opportunity_lost_count')
@@ -19,13 +18,15 @@ class Partner(models.Model):
                                        ('3',' 11 - 25 '),
                                        ('4',' 26 - 50 '),
                                        ('5',' 51 - 100'),
-                                       ('6',' Más de 100 '),])
+                                       ('6',' Más de 100 '),],
+                                        default='1')
     annual_turnover = fields.Selection([('1',' hasta 100k '),
                                         ('2',' hasta 500k '),
                                         ('3',' hasta 1M '),
                                         ('4',' hasta 3M'),
                                         ('5',' hasta 6M'),
-                                        ('6',' más de 6M '),])
+                                        ('6',' más de 6M '),],
+                                        default='1')
     company_size = fields.Selection([('1',' autónomo'),
                                      ('2',' pequeña'),
                                      ('3',' mediana '),

@@ -3,7 +3,6 @@
 
 from odoo import api, models, fields, tools, _
 
-# from wdb import set_trace as depurador
 
 class MailActivity(models.Model):
     _inherit = "mail.activity"
@@ -19,8 +18,7 @@ class MailActivity(models.Model):
         :return:
         """
         self.ensure_one()
-        print('******************* OVERRIDE action_create_calendar_event MAIL ACTIVITY ****************')
-        # depurador()
+     
         action = self.env.ref('calendar.action_calendar_event').read()[0]
         message = self.summary
         attends = []
@@ -36,7 +34,6 @@ class MailActivity(models.Model):
         except :
             pass
 
-
         action['context'] = {
             'default_activity_type_id': self.activity_type_id.id,
             'default_res_id': self.env.context.get('default_res_id'),
@@ -44,7 +41,6 @@ class MailActivity(models.Model):
             'default_name': message,
             'default_description': self.note and tools.html2plaintext(self.note) or '',
             'default_activity_ids': [(6, 0, self.ids)],
-            #'default_partner_ids':attends,
         }
         return action
 
@@ -86,7 +82,6 @@ class MailActivity(models.Model):
 
     @api.model
     def create(self, values):
-        # depurador()
         # already compute default values to be sure those are computed using the current user
         values_w_defaults = self.default_get(self._fields.keys())
         values_w_defaults.update(values)

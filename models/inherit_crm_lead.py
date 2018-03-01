@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import except_orm, UserError, ValidationError, RedirectWarning, Warning
-from wdb import set_trace as depurador
+
 
 class Lead(models.Model):
     _inherit = 'crm.lead'
@@ -28,12 +28,6 @@ class Lead(models.Model):
         self.update(values)
         :return:
         """
-        # values = self._onchange_stage_id_values(self.stage_id.id)
-        # values["previous_stage_sequence"] = self.previous_stage_sequence
-        # values["previous_stage_id"] = self.stage_id.id
-        # print (str(values))
-        # self.update(values)
-
         self.ensure_one()
         if not self.date_deadline or self.planned_revenue <= 0:
             values = {"stage_id": 1}
@@ -48,16 +42,9 @@ class Lead(models.Model):
             redir_msg = _('Go to Internal Categories')
             raise RedirectWarning(err_msg, self.env.ref('product.product_category_action_form').id, redir_msg)
             '''
-            # return {'type': 'ir.actions.client', 'tag': 'reload'}
             action_id = self.env.ref('crm.crm_lead_opportunities_tree_view').id
             raise RedirectWarning(
                 err_msg, action_id, _('Back'))
-
-            # warning_mess = {
-            #     'title': _('Secuencia de oportunidad no completada!'),
-            #     'message': err_msg
-            # }
-            # return {'warning': warning_mess}
 
         if self.stage_id.sequence == 3 and not self.previous_stage_id.sequence ==   2:
             values = {"stage_id": self.previous_stage_id}
@@ -66,13 +53,6 @@ class Lead(models.Model):
                             No se puede cambiar una oportunidad a estado ganada
                             si no procede del estado anterior (validada).
                             """)
-            # raise RedirectWarning(
-            #     err_msg,
-            #     self.env.ref('crm.crm_lead_opportunities').id,
-            #     _('Back'))
-            # raise Warning(_(
-            #     'You can not set to draft this invoice because'
-            #     ' there is a job running!'))
             warning_mess = {
                 'type': 'ir.actions.client',
                 'tag': 'action_warn',
@@ -88,15 +68,6 @@ class Lead(models.Model):
 
             }
 
-            # return {
-            #     'name': _('AVISO'),
-            #     'type': 'ir.actions.act_window',
-            #     'res_model': 'crm.lead',
-            #     'view_type': 'form',
-            #     'view_id': 'action_wizard_kanban_popup',
-            #     'views': [[False, 'form']],
-            # }
-
             warning_mess2 = {
                 'type': 'ir.actions.client',
                 #'tag': 'my_reload',
@@ -111,8 +82,6 @@ class Lead(models.Model):
 
     @api.multi
     def reload_page(self):
-        print('*********************************************************************')
-        print('*********************************************************************')
         return {
             'name': _('AVISO'),
             'type': 'ir.actions.act_window',
@@ -124,8 +93,6 @@ class Lead(models.Model):
 
     @api.multi
     def write(self, vals):
-        print("---------------------- WRITE ----------------------")
-        # depurador()
         # stage change: update date_last_stage_update
         if 'stage_id' in vals:
             vals['date_last_stage_update'] = fields.Datetime.now()
@@ -139,6 +106,4 @@ class Lead(models.Model):
             vals['date_closed'] = fields.Datetime.now()
         elif 'probability' in vals:
             vals['date_closed'] = False
-        # vals["previous_stage_id"] = self.stage_id.id
-        print("Vals : {}".format(str(vals)))
         return super(Lead, self).write(vals)
