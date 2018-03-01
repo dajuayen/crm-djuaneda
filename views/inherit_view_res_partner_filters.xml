@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_res_partner_filter" model="ir.ui.view">
+        <field name="name">res.partner.select.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="city" string="Town" filter_domain="[('city','ilike', self)]"/>
+                <field name="industry_id" string="Industry" filter_domain="[('industry_id','ilike', self)]"/>
+                <field name="mobile" string="Mobile" filter_domain="[('mobile','ilike', self)]"/>
+                <field name="phone" string="Phone" filter_domain="[('phone','ilike', self)]"/>
+            </field>
+
+        </field>
+    </record>
+
+
+    <menuitem
+        id="crm.menu_crm_lead_categ"
+        name="Lead Tags"
+        groups="base.group_system"
+        action="crm.crm_lead_tag_action"
+        parent="crm.menu_crm_config_lead"
+        sequence="1"/>
+
+</odoo>

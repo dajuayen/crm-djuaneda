@@ -1,0 +1,251 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* sdi_crm
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-23 14:54+0000\n"
+"PO-Revision-Date: 2018-01-23 14:54+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sdi_crm
+#: selection:res.partner,n_of_employees:0
+msgid "30 - 100"
+msgstr "30 - 100"
+
+#. module: sdi_crm
+#: selection:res.partner,n_of_employees:0
+msgid "<30"
+msgstr "<30"
+
+#. module: sdi_crm
+#: selection:res.partner,n_of_employees:0
+msgid ">100"
+msgstr ">100"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_associate
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_associate
+msgid "Asociate"
+msgstr "Asociado"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_cnae_code
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_cnae_code
+msgid "CNAE code"
+msgstr "Código CNAE"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_company_size
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_company_size
+msgid "Company Size"
+msgstr "Tamaño compañia"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_consultant
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_consultant
+msgid "Consultant"
+msgstr "Consultor"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_contact_origin
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_contact_origin
+msgid "Contact origin"
+msgstr "Contacto de origen"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_erp_supplier
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_erp_supplier
+msgid "ERP supplier"
+msgstr "Proveedor de ERP"
+
+#. module: sdi_crm
+#: selection:res.partner,company_size:0
+msgid "Gran Empresa"
+msgstr "Gran Empresa"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_hardware_supplier
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_hardware_supplier
+msgid "Hardware supplier"
+msgstr "Proveedor Hardware"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_is_erp_supplier
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_is_erp_supplier
+msgid "Is ERP supplier"
+msgstr "Es proveedor de ERP"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_is_web_supplier
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_is_web_supplier
+msgid "Is WEB supplier"
+msgstr "Es proveedor de WEB"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_is_associate
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_is_associate
+msgid "Is associate"
+msgstr "Es asociación"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_is_consultant
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_is_consultant
+msgid "Is consultant"
+msgstr "Es consultor"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_is_hardware_supplier
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_is_hardware_supplier
+msgid "Is hardware supplier"
+msgstr "Es proveedor de hardware"
+
+#. module: sdi_crm
+#: selection:res.partner,company_size:0
+msgid "Multinacional"
+msgstr "Multinacional"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_annual_turnover
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_annual_turnover
+msgid "annual_turnover"
+msgstr "Facturación anual"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_n_of_employees
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_n_of_employees
+msgid "N Of Employees"
+msgstr "Número de empleados"
+
+#. module: sdi_crm
+#: selection:res.partner,send_advertising:0
+msgid "No"
+msgstr "No"
+
+#. module: sdi_crm
+#: selection:res.partner,send_advertising:0
+msgid "No - LOPD"
+msgstr "No - LOPD"
+
+#. module: sdi_crm
+#: selection:res.partner,company_size:0
+msgid "PYME"
+msgstr "PYME"
+
+#. module: sdi_crm
+#: model:ir.model,name:sdi_crm.model_res_partner
+msgid "Partner CRM SDI"
+msgstr "Partner CRM SDI"
+
+#. module: sdi_crm
+#: model:ir.ui.view,arch_db:sdi_crm.view_partner_form
+msgid "SDI CRM"
+msgstr "SDI CRM"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_send_advertising
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_send_advertising
+msgid "Send Advertising"
+msgstr "Envío publicidad"
+
+#. module: sdi_crm
+#: selection:res.partner,send_advertising:0
+msgid "Si"
+msgstr "Si"
+
+#. module: sdi_crm
+#: model:ir.model.fields,field_description:sdi_crm.field_res_partner_web_supplier
+#: model:ir.model.fields,field_description:sdi_crm.field_res_users_web_supplier
+msgid "WEB supplier"
+msgstr "Proveedor WEB"
+
+
+#. module: sdi_crm
+#: model:ir.ui.menu,name:sdi_crm.menu_crm_opportunities_list
+msgid "Pipeline List"
+msgstr "Lista de oportunidades"
+
+#. module: sdi_crm
+#: model:ir.ui.menu,name:sdi_crm.menu_crm_customers_data
+msgid "Customers Data"
+msgstr "Lista clientes: datos"
+
+#. module: sdi_crm
+#: model:ir.ui.menu,name:base.action_partner_form
+msgid "Customers"
+msgstr "Clientes"
+
+#. module: sdi_crm
+#: model:ir.ui.view,name:base.view_res_partner_filter
+msgid "Archived"
+msgstr "Archivado"
+
+
+#. module: base
+#: model:ir.ui.view,name:base.view_res_partner_filter
+msgid "Companies"
+msgstr "Compañías"
+
+
+#. module: sdi_crm
+#: model:ir.ui.view,name:base.view_res_partner_filter
+msgid "Company"
+msgstr "Compañía"
+
+
+#. module: sdi_crm
+#: model:ir.ui.view,name:base.view_res_partner_filter
+msgid "Country"
+msgstr "País"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "My Partners"
+msgstr "Mis empresas"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "Persons"
+msgstr "Contactos"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "Salesperson"
+msgstr "Comercial"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "Search Partner"
+msgstr "Buscar empresa"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "Tag"
+msgstr "Etiqueta"
+
+
+#. module: base
+#: model:ir.ui.view,arch_db:base.view_res_partner_filter
+msgid "Vendors"
+msgstr "Proveedores"
+
+
+

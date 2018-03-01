@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<odoo>
+
+<!---->
+    <record id="mail.mail_activity_view_calendar" model="ir.ui.view">
+        <field name="name">mail.activity.view.calendar.inherit.sdi</field>
+        <field name="model">mail.activity</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="Activity" date_start="date_deadline" color="activity_type_id">
+                <field name="res_model"/>
+                <field name="activity_type_id"/>
+                <field name="res_name"/>
+                <field name="create_uid"/>
+                <field name="summary"/>
+            </calendar>
+        </field>
+    </record>
+
+
+</odoo>

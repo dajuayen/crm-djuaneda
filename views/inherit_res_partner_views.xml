@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <data>
+                <button name="toggle_active" position="before">
+                    <button class="oe_stat_button o_res_partner_tip_opp" type="action"
+                        attrs="{'invisible': [('customer', '=', False)]}"
+                        name="%(crm.crm_lead_opportunities)d"
+                        icon="fa-trash"
+                        context="{'search_default_partner_id': active_id,'search_default_lost':1}">
+                        <field string="Losts" name="opportunity_count_lost" widget="statinfo"/>
+                    </button>
+                </button>
+            </data>
+
+            <field name='industry_id' position="attributes">
+                 <attribute name="invisible">1</attribute>
+             </field>
+             <field name='phone' position="attributes">
+                 <attribute name="attrs">{'required': [('user_ids','!=', [])]}</attribute>
+             </field>
+            <field name='category_id' position="after">
+                <field name="is_hardware_supplier"/>
+                <field name="is_erp_supplier"/>
+                <field name="is_web_supplier"/>
+                <field name="is_consultant"/>
+                <field name="is_associate"/>
+            </field>
+            <field name='lang' position="before">
+                <field name="industry_id"/>
+                <field name="company_size"/>
+                <field name="n_of_employees"/>
+                <field name="annual_turnover"/>
+            </field>
+            <field name='industry_id' position="attributes">
+                 <attribute name="attrs">{'required': [('user_ids','!=', [])]}</attribute>
+            </field>
+
+            <page name="sales_purchases" position="after">
+                  <page string='SDI CRM'>
+                    <group>
+                        <group>
+                            <field name="contact_origin"/>
+                            <field name="hardware_supplier" domain="[('is_hardware_supplier','=','true'),('id','!=',id)]"/>
+                            <field name="web_supplier" domain="[('is_web_supplier','=','true'),('id','!=',id)]"/>
+                            <field name="associate" domain="[('is_associate','=','true'),('id','!=',id)]"/>
+                        </group>
+                        <group>
+                            <field name="send_advertising"/>
+                            <field name="erp_supplier" domain="[('is_erp_supplier','=','true'),('id','!=',id)]"/>
+                            <field name="consultant" domain="[('is_consultant','=','true'),('id','!=',id)]" />
+                            <field name="cnae_code"/>
+                        </group>
+                    </group>
+                  </page>
+            </page>
+        </field>
+    </record>
+
+        <!-- Define the tree view -->
+    <record id="base.view_partner_tree" model="ir.ui.view">
+        <field name="name">crm.customers.tree.data</field>
+        <field name="model">res.partner</field>
+        <!--<field name="inherit_id" ref="base.view_partner_tree"/>-->
+        <field name="arch" type="xml">
+            <tree string="Contacts">
+                    <field name="display_name" string="Name"/>
+                    <field name="function" invisible="1"/>
+                    <field name="company_name"/>
+                    <field name="mobile"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="city" string="Población"/>
+                    <field name="state_id" string="Provincia"/>
+                    <field name="user_id"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+        </field>
+    </record>
+
+</odoo>

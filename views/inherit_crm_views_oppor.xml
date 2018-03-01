@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<odoo>
+
+<!--Definición de la vista tipo tabla de las oportunidades-->
+    <record id="crm.crm_case_tree_view_oppor" model="ir.ui.view">
+        <field name="name">crm.pipeline.list.override.sdi</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <tree string="Opportunities" decoration-bf="message_needaction==True" decoration-muted="probability == 100"
+                      decoration-danger="activity_date_deadline and (activity_date_deadline &lt; current_date)">
+                <field name="date_deadline" invisible="1"/>
+                <field name="create_date" invisible="1"/>
+                <field name="name"/>
+                <field name="partner_id" string="Customer"/>
+                <field name="team_id" invisible="1"/>
+                <field name="planned_revenue" sum="Expected Revenues" required="True"/>
+                <field name="probability" avg="Avg. of Probability"/>
+                <field name="date_deadline" string="cierre previsto" required="True"/>
+                <field name="user_id"/>
+                <!--<field name="tag" string="unidad de negocio"></field>-->
+                <field name="medium_id" invisible="1"/>
+                <field name="campaign_id" invisible="1"/>
+                <field name="source_id" invisible="1"/>
+                <field name="stage_id" invisible="1"/>
+                <field name="referred" invisible="1"/>
+                <field name="priority" invisible="1"/>
+                <field name="message_needaction" invisible="1"/>
+                <field name="probability" invisible="1" required="True"/>
+                <field name="write_date" invisible="1"/>
+                <field name="country_id" invisible="1"/>
+                <field name="activity_date_deadline" invisible="1"/>
+                <field name="activity_summary" string="Resumen actividad"/>
+                <!--PRUEBA DE RELACIÓN TABLAS CRM.LEAD Y MAIL.ACTIVITY-->
+                <field name="activity_type_id" string="Tipo actividad"/>
+            </tree>
+        </field>
+    </record>
+
+<!--
+            crm.lead (as Opportunity) views
+-->
+
+<!--Modificación de la vista form de oportunidad desde kanban -->
+    <record id="crm.crm_case_form_view_oppor" model="ir.ui.view">
+        <field name="name">crm.lead.form.opportunity.override.sdi</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <form string="Opportunities" class="o_opportunity_form">
+                <header>
+                    <button name="action_set_won" string="Mark Won"
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>
+                    <button name="%(crm.crm_lead_lost_action)d" string="Mark Lost"
+                            type="action" class="oe_highlight"
+                            context="{'default_lead_id': active_id}"
+                            attrs="{'invisible': [('active', '=', False),('probability', '&lt;', 100)]}"/>
+                    <field name="stage_id" widget="statusbar" clickable="True"
+                        options="{'fold_field': 'fold'}"
+                        domain="['|', ('team_id', '=', team_id), ('team_id', '=', False)]"
+                        attrs="{'invisible': [('active', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                            context="{'partner_id': partner_id}"
+                            name="action_schedule_meeting" icon="fa-calendar">
+                            <div class="o_stat_info">
+                                <field name="meeting_count" class="o_stat_value"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('meeting_count', '&lt;', 2)]}"> Meetings</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('meeting_count', '&gt;', 1)]}"> Meeting</span>
+                            </div>
+                        </button>
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"
+                                attrs="{'invisible': [('active', '=', True), ('probability', '&lt;', 100)]}">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="label label-danger pull-right" attrs="{'invisible': ['|', ('probability', '&gt;', 0), ('active', '=', True)]}">Lost</div>
+                    <div class="label label-success pull-right" attrs="{'invisible': [('probability', '&lt;', 100)]}">Won</div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Product Pricing"/></h1>
+                        <h2 class="o_row">
+                            <div>
+                                <label for="planned_revenue" class="oe_edit_only" />
+                                <div class="o_row">
+                                    <field name="company_currency" invisible="1"/>
+                                    <field name="planned_revenue" widget='monetary' options="{'currency_field': 'company_currency'}"/>
+                                    <span class="oe_grey"> at </span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="probability" class="oe_edit_only"/>
+                                <div class="o_row">
+                                    <field name="probability" widget="integer"/>
+                                    <span>%%</span>
+                                </div>
+                            </div>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <!-- Preload all the partner's information -->
+                            <field name="phone" invisible="1"/>
+                            <field name="function" invisible="1"/>
+                            <field name="partner_id"
+                                context="{'default_name': contact_name,
+                                            'default_street': street,
+                                            'default_city': city,
+                                            'default_state_id': state_id,
+                                            'default_zip': zip,
+                                            'default_country_id': country_id,
+                                            'default_function': function,
+                                            'default_phone': phone,
+                                            'default_mobile': mobile,
+                                            'default_email': email_from,
+                                            'default_user_id': user_id,
+                                            'default_team_id': team_id,
+                                            'default_website': website}"
+                                   groups="base.group_no_one"/>
+                            <field name="partner_name" string="Company Name"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                        </group>
+                        <group>
+                            <label for="contact_name"/>
+                            <div class="o_row">
+                                <field name="contact_name"/>
+                                <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}'/>
+                            </div>
+                            <field name="email_from" widget="email"/>
+                            <field name="mobile"  widget="phone"/>
+                        </group>
+                        <group>
+                            <field name="user_id" domain="[('share', '=', False)]"
+                                context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'sales_team.group_sale_salesman_all_leads'], 'team_id': team_id}"/>
+                            <field name="team_id" widget="selection" domain="[('use_leads','=',True)]"/>
+                            <field name="type" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_deadline" widget="date"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Internal Notes">
+                            <field name="description"/>
+                        </page>
+                        <page name="extra" string="Extra Info">
+                            <group>
+                                <group string="Email">
+                                    <field name="opt_out"/>
+                                    <field name="message_bounce" readonly="1" groups="base.group_no_one"/>
+                                </group>
+                                <group string="Tracking" groups="base.group_multi_company,base.group_no_one" name="categorization">
+                                    <field name="company_id"
+                                        groups="base.group_multi_company"
+                                        options="{'no_create': True}"/>
+                                    <field name="campaign_id" />
+                                    <field name="medium_id"/>
+                                    <field name="source_id"/>
+                                    <field name="referred"/>
+                                </group>
+                                <group string="Analysis" groups="base.group_no_one">
+                                    <field name="date_open"/>
+                                    <field name="date_closed"/>
+                                    <field name="probability"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>
