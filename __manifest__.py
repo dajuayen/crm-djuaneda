@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
-    'name':'SDI CRM',
-    'version':'1.0.0.0',
+    'name':'SDI CRM 2',
+    'version':'1.0.0.1',
     'category':'',
     'author':['Javier Izco',
             'David Juaneda'],
