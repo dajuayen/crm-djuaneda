@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="view_partner_form" model="ir.ui.view">
-        <field name="name">res.partner.form</field>
+        <field name="name">res.partner.form.override.sdi</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="type">form</field>
@@ -23,20 +23,23 @@
                  <attribute name="invisible">1</attribute>
              </field>
              <field name='phone' position="attributes">
-                 <attribute name="attrs">{'required': [('user_ids','!=', [])]}</attribute>
+                 <attribute name="required">1</attribute>
+             </field>
+            <field name='email' position="attributes">
+                 <attribute name="required">1</attribute>
              </field>
             <field name='category_id' position="after">
-                <field name="is_hardware_supplier"/>
-                <field name="is_erp_supplier"/>
-                <field name="is_web_supplier"/>
-                <field name="is_consultant"/>
-                <field name="is_associate"/>
+                <field name="is_hardware_supplier" string="Es proveedor hardware"/>
+                <field name="is_erp_supplier" string="Es proveedor de ERP"/>
+                <field name="is_web_supplier" string="Es proveedor de WEB"/>
+                <field name="is_consultant" string="Es consultor"/>
+                <field name="is_associate" string="Es asociación"/>
             </field>
             <field name='lang' position="before">
-                <field name="industry_id"/>
-                <field name="company_size"/>
-                <field name="n_of_employees"/>
-                <field name="annual_turnover"/>
+                <field name="industry_id" string="Sector" required="1"/>
+                <field name="company_size" string="Tamaño de compañia" required="1"/>
+                <field name="n_of_employees" string="Nº de empleados" required="1"/>
+                <field name="annual_turnover" string="Facturación anual" required="1"/>
             </field>
             <field name='industry_id' position="attributes">
                  <attribute name="attrs">{'required': [('user_ids','!=', [])]}</attribute>
@@ -63,16 +66,16 @@
         </field>
     </record>
 
-        <!-- Define the tree view -->
+        <!-- Define the tree view : vista lista en clientes -->
     <record id="base.view_partner_tree" model="ir.ui.view">
         <field name="name">crm.customers.tree.data</field>
         <field name="model">res.partner</field>
         <!--<field name="inherit_id" ref="base.view_partner_tree"/>-->
         <field name="arch" type="xml">
             <tree string="Contacts">
-                    <field name="display_name" string="Name"/>
+                    <field name="display_name" string="Nombre"/>
                     <field name="function" invisible="1"/>
-                    <field name="company_name"/>
+                    <field name="company_name" invisible="1"/>
                     <field name="mobile"/>
                     <field name="phone"/>
                     <field name="email"/>
@@ -84,6 +87,17 @@
                     <field name="parent_id" invisible="1"/>
                     <field name="active" invisible="1"/>
                 </tree>
+        </field>
+    </record>
+
+    <record id="res_partner_view_form_inherit_mail" model="ir.ui.view">
+        <field name="name">res.partner.view.form.override.sdi</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail.res_partner_view_form_inherit_mail"/>
+        <field name="arch" type="xml">
+            <field name="activity_ids" position="attributes">
+                <attribute name="domain">{('done','!=',True)}</attribute>
+            </field>
         </field>
     </record>
 

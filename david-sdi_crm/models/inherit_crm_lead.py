@@ -7,20 +7,26 @@ from odoo.exceptions import except_orm, UserError, ValidationError, RedirectWarn
 class Lead(models.Model):
     _inherit = 'crm.lead'
 
-    # editable =
+    # modificación para que en el muro no sigan apareciendo las actividades hechas
     activity_ids = fields.One2many(
         'mail.activity', 'res_id', 'Activities',
         auto_join=True,
         groups="base.group_user",
-        domain=lambda self: [('res_model', '=', self._name), ('done','=', False)])
+        domain=lambda self: [('res_model', '=', self._name), ('done','!=', True)])
+
+    # activity_dones = fields.Boolean(related='activity_ids.done',
+    #     readonly=True,
+    #     groups="base.group_user")
+
 
     previous_stage_id = fields.Many2one('crm.stage', string='Previous Stage', track_visibility='onchange',
         domain="['|', ('team_id', '=', False), ('team_id', '=', team_id)]",
         group_expand='_read_group_stage_ids', default=None)
 
-    @api.multi
+
+    # @api.multi
     @api.onchange('stage_id')
-    def _onchange_stage_id_b(self):
+    def _onchange_stage_id(self):
         """
         comprueba que la oportunidad puede cambiar de etapa en función de si tiene datos
         el campo date_deadline.
@@ -37,59 +43,15 @@ class Lead(models.Model):
                 - fecha de cierre
                 - cantidad mayor a 0
                 """)
-            '''
-            err_msg = _('You must define at least one product category in order to be able to create products.')
-            redir_msg = _('Go to Internal Categories')
-            raise RedirectWarning(err_msg, self.env.ref('product.product_category_action_form').id, redir_msg)
-            '''
+            return {'warning': err_msg}
+
             action_id = self.env.ref('crm.crm_lead_opportunities_tree_view').id
             raise RedirectWarning(
                 err_msg, action_id, _('Back'))
 
-        if self.stage_id.sequence == 3 and not self.previous_stage_id.sequence ==   2:
-            values = {"stage_id": self.previous_stage_id}
-            self.update(values)
-            err_msg = _("""
-                            No se puede cambiar una oportunidad a estado ganada
-                            si no procede del estado anterior (validada).
-                            """)
-            warning_mess = {
-                'type': 'ir.actions.client',
-                'tag': 'action_warn',
-                'name':'Warning',
-                'params':{
-                    'title': _('Secuencia de oportunidad no completada!'),
-                    'text': _("""
-                            No se puede cambiar una oportunidad a estado ganada
-                            si no procede del estado anterior (validada).
-                            """),
-                    'sticky':True
-                }
-
-            }
-
-            warning_mess2 = {
-                'type': 'ir.actions.client',
-                #'tag': 'my_reload',
-                'title': _('Secuencia de oportunidad no completada!'),
-                'message': err_msg,
-                'class':'mi_clase'
-            }
-
-            return {'warning':warning_mess2}
-
-        return {'type': 'ir.actions.client', 'tag': 'reload'}
-
-    @api.multi
-    def reload_page(self):
-        return {
-            'name': _('AVISO'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'crm.lead',
-            'view_type': 'form',
-            'view_id': 'action_wizard_kanban_popup',
-            'views': [[False, 'list'], [False, 'kanban'], [False, 'form']],
-        }
+        values = self._onchange_stage_id_values(self.stage_id.id)
+        self.update(values)
+        # return {'type': 'ir.actions.client', 'tag': 'reload'}
 
     @api.multi
     def write(self, vals):
@@ -107,3 +69,4 @@ class Lead(models.Model):
         elif 'probability' in vals:
             vals['date_closed'] = False
         return super(Lead, self).write(vals)
+

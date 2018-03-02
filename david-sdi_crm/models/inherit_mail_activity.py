@@ -2,12 +2,13 @@
 # modify mail.activity, method  action_create_calendar_event.
 
 from odoo import api, models, fields, tools, _
-
+from wdb import set_trace as depurador
 
 class MailActivity(models.Model):
     _inherit = "mail.activity"
 
     done = fields.Boolean(default=False)
+
 
     @api.multi
     def action_create_calendar_event(self):
@@ -18,19 +19,20 @@ class MailActivity(models.Model):
         :return:
         """
         self.ensure_one()
-     
+
         action = self.env.ref('calendar.action_calendar_event').read()[0]
         message = self.summary
         attends = []
         try:
             customer = self.env['res.partner'].search([('id', '=', self.env.context.get('default_res_id'))])
-            if customer and customer.is_company:
-                message = "{} - {}".format(customer.name, message)
-            else:
+            depurador()
+            if customer.id and customer.commercial_company_name and customer.name:
                 message = "{}, {} - {}".format(customer.commercial_company_name,
                                                customer.name,
                                                message)
-                attends.append(customer)
+            elif customer.id and customer.name:
+                message = "{}, {} - {}".format(customer.name, message)
+                # attends.append(customer)
         except :
             pass
 
@@ -61,6 +63,7 @@ class MailActivity(models.Model):
             message |= record.message_ids[0]
         return message.ids and message.ids[0] or False
 
+
     @api.multi
     def read(self, fields=None, load='_classic_read', *args, **kwargs):
         """ Override to explicitely call check_access_rule, that is not called
@@ -73,15 +76,10 @@ class MailActivity(models.Model):
                 result.append(row)
         return result
 
-    # @api.model
-    # def default_get(self, fields):
-    #     res = super(MailActivity, self).default_get(fields)
-    #     if not fields or 'res_model_id' in fields and res.get('res_model'):
-    #         res['res_model_id'] = self.env['ir.model']._get(res['res_model']).id
-    #     return res
 
     @api.model
     def create(self, values):
+        depurador()
         # already compute default values to be sure those are computed using the current user
         values_w_defaults = self.default_get(self._fields.keys())
         values_w_defaults.update(values)

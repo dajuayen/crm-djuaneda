@@ -112,7 +112,7 @@ msgstr "Es proveedor de hardware"
 msgid "Multinacional"
 msgstr "Multinacional"
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.model.fields,field_description:sdi_crm.field_res_partner_annual_turnover
 #: model:ir.model.fields,field_description:sdi_crm.field_res_users_annual_turnover
 msgid "annual_turnover"
@@ -149,7 +149,7 @@ msgstr "Partner CRM SDI"
 msgid "SDI CRM"
 msgstr "SDI CRM"
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.model.fields,field_description:sdi_crm.field_res_partner_send_advertising
 #: model:ir.model.fields,field_description:sdi_crm.field_res_users_send_advertising
 msgid "Send Advertising"
@@ -160,29 +160,29 @@ msgstr "Envío publicidad"
 msgid "Si"
 msgstr "Si"
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.model.fields,field_description:sdi_crm.field_res_partner_web_supplier
 #: model:ir.model.fields,field_description:sdi_crm.field_res_users_web_supplier
 msgid "WEB supplier"
 msgstr "Proveedor WEB"
 
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.ui.menu,name:sdi_crm.menu_crm_opportunities_list
 msgid "Pipeline List"
 msgstr "Lista de oportunidades"
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.ui.menu,name:sdi_crm.menu_crm_customers_data
 msgid "Customers Data"
 msgstr "Lista clientes: datos"
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.ui.menu,name:base.action_partner_form
 msgid "Customers"
 msgstr "Clientes"
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.ui.view,name:base.view_res_partner_filter
 msgid "Archived"
 msgstr "Archivado"
@@ -194,7 +194,7 @@ msgid "Companies"
 msgstr "Compañías"
 
 
-#. module: sdi_crm
+#. module: david-sdi_crm
 #: model:ir.ui.view,name:base.view_res_partner_filter
 msgid "Company"
 msgstr "Compañía"

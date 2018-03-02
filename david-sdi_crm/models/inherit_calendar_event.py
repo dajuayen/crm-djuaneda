@@ -140,5 +140,9 @@ class Meeting(models.Model):
                 activity_values['date_deadline'] = fields.Datetime.from_string(values['start']).date()
             if values.get('user_id'):
                 activity_values['user_id'] = values['user_id']
+            if values.get('done'):
+                activity_values['done'] = values['done']
+            else:
+                activity_values['done'] = False
             if activity_values.keys():
                 self.mapped('activity_ids').write(activity_values)

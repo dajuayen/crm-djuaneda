@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <odoo>
 
-<!---->
+<!--
+
+-->
     <record id="mail.mail_activity_view_calendar" model="ir.ui.view">
         <field name="name">mail.activity.view.calendar.inherit.sdi</field>
         <field name="model">mail.activity</field>

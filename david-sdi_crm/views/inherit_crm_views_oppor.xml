@@ -11,11 +11,12 @@
                 <field name="date_deadline" invisible="1"/>
                 <field name="create_date" invisible="1"/>
                 <field name="name"/>
-                <field name="partner_id" string="Customer"/>
+                <field name="partner_id" string="Cliente"/>
+                <field name="tag_ids" string="Unidad de negocio" widget="many2many_tags"/>
                 <field name="team_id" invisible="1"/>
                 <field name="planned_revenue" sum="Expected Revenues" required="True"/>
                 <field name="probability" avg="Avg. of Probability"/>
-                <field name="date_deadline" string="cierre previsto" required="True"/>
+                <field name="date_deadline" string="Cierre previsto" required="True"/>
                 <field name="user_id"/>
                 <!--<field name="tag" string="unidad de negocio"></field>-->
                 <field name="medium_id" invisible="1"/>
@@ -30,7 +31,6 @@
                 <field name="country_id" invisible="1"/>
                 <field name="activity_date_deadline" invisible="1"/>
                 <field name="activity_summary" string="Resumen actividad"/>
-                <!--PRUEBA DE RELACIÓN TABLAS CRM.LEAD Y MAIL.ACTIVITY-->
                 <field name="activity_type_id" string="Tipo actividad"/>
             </tree>
         </field>
@@ -85,14 +85,14 @@
                                 <label for="planned_revenue" class="oe_edit_only" />
                                 <div class="o_row">
                                     <field name="company_currency" invisible="1"/>
-                                    <field name="planned_revenue" widget='monetary' options="{'currency_field': 'company_currency'}"/>
+                                    <field name="planned_revenue" required="1" widget='monetary' options="{'currency_field': 'company_currency'}"/>
                                     <span class="oe_grey"> at </span>
                                 </div>
                             </div>
                             <div>
                                 <label for="probability" class="oe_edit_only"/>
                                 <div class="o_row">
-                                    <field name="probability" widget="integer"/>
+                                    <field name="probability" required="1" widget="integer"/>
                                     <span>%%</span>
                                 </div>
                             </div>
@@ -146,9 +146,10 @@
                             <field name="type" invisible="1"/>
                         </group>
                         <group>
-                            <field name="date_deadline" widget="date"/>
+                            <field name="date_deadline" required="1" widget="date"/>
                             <field name="priority" widget="priority"/>
-                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            <field name="tag_ids" widget="many2many_tags" required="1"
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
                         </group>
                     </group>
                     <notebook>
@@ -181,7 +182,7 @@
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="activity_ids" widget="mail_activity" domain="{('done',!=',True)}"/>
                     <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
                 </div>
             </form>

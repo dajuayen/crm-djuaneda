@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
+from wdb import set_trace as depurador
 
 class Partner(models.Model):
     _inherit = 'res.partner'
@@ -49,3 +50,12 @@ class Partner(models.Model):
                  ('type', '=', 'opportunity'),
                  ('active', '=', False),
                  ('probability','=','0')])
+
+    @api.multi
+    def _compute_meeting_count(self):
+        for partner in self:
+            partner.meeting_count = len(partner.meeting_ids)
+            if partner.is_company:
+                workers = self.env['res.partner'].search([('parent_id', '=', partner.id)])
+                for w in workers:
+                    partner.meeting_count += len(w.meeting_ids)
